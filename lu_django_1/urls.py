@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('add-visit', uzdevumi.views.add_visit),
     path('visit/<int:visit_id>', uzdevumi.views.get_visit, name='get-visit'),
+    path('filter-visits/visitor', uzdevumi.views.filter_visits_by_visitor),
     path('', uzdevumi.views.get_all_visits),
 ]

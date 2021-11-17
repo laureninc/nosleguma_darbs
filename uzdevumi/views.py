@@ -1,8 +1,41 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .forms import VisitForm
+from .forms import VisitForm, VisitorNameForm
 from .models import Visit
+
+
+def filter_visits_by_visitor(request):
+
+    form = VisitorNameForm(request.POST or None)
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+
+            visitor_name = form.cleaned_data['visitor_name']
+            visits = Visit.objects.filter(visitor=visitor_name)
+
+            context = {
+                'visits': visits,
+            }
+
+            return render(
+                request,
+                template_name='visits.html',
+                context=context,
+            )
+
+    context = {
+        'form': form,
+    }
+
+    return render(
+        request,
+        template_name='visit_form.html',
+        context=context,
+    )
+
 
 
 def get_all_visits(request):
