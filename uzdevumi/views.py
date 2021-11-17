@@ -24,7 +24,15 @@ def get_visit(request, visit_id):
 
     visit = Visit.objects.get(id=visit_id)
 
-    return HttpResponse(visit_id)
+    context = {
+        'visit': visit,
+    }
+
+    return render(
+        request,
+        template_name='visit.html',
+        context=context,
+    )
 
 
 def add_visit(request):
