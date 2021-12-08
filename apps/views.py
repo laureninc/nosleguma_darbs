@@ -1,18 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .forms import VisitForm, VisitorNameForm
-from .models import Visit
+from .forms import VisitForm, VisitorNameForm, GradesForm
+from .models import Visit, StudentModel
 
 
 def filter_visits_by_visitor(request):
-
     form = VisitorNameForm(request.POST or None)
 
     if request.method == 'POST':
 
         if form.is_valid():
-
             visitor_name = form.cleaned_data['visitor_name']
             visits = Visit.objects.filter(visitor=visitor_name)
 
@@ -37,9 +35,7 @@ def filter_visits_by_visitor(request):
     )
 
 
-
 def get_all_visits(request):
-
     visits = Visit.objects.all()
 
     context = {
@@ -54,7 +50,6 @@ def get_all_visits(request):
 
 
 def get_visit(request, visit_id):
-
     visit = Visit.objects.get(id=visit_id)
 
     context = {
@@ -68,14 +63,34 @@ def get_visit(request, visit_id):
     )
 
 
-def add_visit(request):
+def add_grades(request):
+    form = GradesForm(request.POST or None)
 
+    if request.method == 'POST':
+
+        if form.is_valid():
+            grades_str = form.cleaned_data['grades']
+            grades_int_list = list(map(int, grades_str.split(',')))
+
+            student = StudentModel(
+                grades_int_list,
+                grades=form.cleaned_data['grades']
+            )
+            return render(
+                request,
+                template_name='add_student.html',
+                context={'form': form}
+            )
+
+
+
+
+def add_visit(request):
     form = VisitForm(request.POST or None)
 
     if request.method == 'POST':
 
         if form.is_valid():
-
             visit = Visit(
                 visitor=form.cleaned_data['visitor'],
                 reason=form.cleaned_data['reason'],
@@ -86,6 +101,7 @@ def add_visit(request):
 
             context = {
                 'visit': visit,
+
             }
 
             return render(

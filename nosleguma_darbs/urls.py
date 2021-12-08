@@ -1,4 +1,4 @@
-"""lu_django_1 URL Configuration
+"""nosleguma_darbs URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import uzdevumi.views
+import apps.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('add-visit', uzdevumi.views.add_visit),
-    path('visit/<int:visit_id>', uzdevumi.views.get_visit, name='get-visit'),
-    path('filter-visits/visitor', uzdevumi.views.filter_visits_by_visitor),
-    path('', uzdevumi.views.get_all_visits),
+    path('add-visit', apps.views.add_visit),
+    path('visit/<int:visit_id>', apps.views.get_visit, name='get-visit'),
+    path('filter-visits/visitor', apps.views.filter_visits_by_visitor),
+    path('student/add', apps.views.add_grades),
+    path('', apps.views.get_all_visits),
 ]
