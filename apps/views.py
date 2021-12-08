@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .forms import VisitForm, VisitorNameForm, GradesForm
-from .models import Visit, StudentModel
+# from .forms import VisitForm, VisitorNameForm, GradesForm
+# from .models import Visit, StudentModel
 
+from .forms import GradesForm
+from .models import StudentModel
 
 # def filter_visits_by_visitor(request):
 #     form = VisitorNameForm(request.POST or None)
@@ -61,30 +63,9 @@ from .models import Visit, StudentModel
 #         template_name='visit.html',
 #         context=context,
 #     )
-
-
-def add_grades(request):
-    form = GradesForm(request.POST or None)
-
-    if request.method == 'POST':
-
-        if form.is_valid():
-            grades_str = form.cleaned_data['grades']
-            grades_int_list = list(map(int, grades_str.split(',')))
-
-            student = StudentModel(
-                grades_int_list,
-                grades=form.cleaned_data['grades']
-            )
-            return render(
-                request,
-                template_name='add_student.html',
-                context={'form': form}
-            )
-
-
-
-
+#
+#
+#
 # def add_visit(request):
 #     form = VisitForm(request.POST or None)
 #
@@ -115,3 +96,26 @@ def add_grades(request):
 #         template_name='visit_form.html',
 #         context={'form': form}
 #     )
+#
+
+def add_grades(request):
+    form = GradesForm(request.POST or None)
+
+    if request.method == 'POST':
+
+        if form.is_valid():
+            grades_str = form.cleaned_data['grades']
+            grades_int_list = list(map(int, grades_str.split(',')))
+
+            student = StudentModel(
+                grades_int_list,
+                grades=form.cleaned_data['grades']
+            )
+            return render(
+                request,
+                template_name='add_student.html',
+                context={'form': form}
+            )
+
+
+
